@@ -3,7 +3,5 @@
 archive/
 from_qcAnalyst/
 from_spectro/
-output/
-output/.version_counter
 spectro_copy/
 README_copy.md
