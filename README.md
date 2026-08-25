@@ -6,11 +6,9 @@
 
 ## 1. Project Background
 
-This is a one-off data merging program requested by management to reduce the manual effort required by Ms. Jam, a laboratory assistant in the color production department, when cross-referencing quality check (QC) results from two separate systems.
+This is a one-off data merging program requested by management to reduce the manual effort required when cross-referencing quality check (QC) results from two separate systems.
 
-The laboratory uses a spectrophotometer unit called 3NH. This program merges the QC evaluation results with the 3NH Spectro readings into one final report.
-
-The program covers five product codes: **BA2103E, RA16826E, RA18011E, WA12282E, WA15190E.**
+The laboratory uses a spectrophotometer unit called 3NH. This program merges the QC evaluation results with the Spectro readings into one final report.
 
 ---
 
@@ -92,3 +90,22 @@ The program covers five product codes: **BA2103E, RA16826E, RA18011E, WA12282E, 
 2. **COMPLETE_DATA** — all data except reference rows and QC-only (no Spectro reading) rows. This is the clean dataset intended for testing and training.
 3. **REFERENCE_DATA** — reference rows only (STD/LIGHT/DARK). For lookup reference; not used in testing or training.
 4. **INCOMPLETE_DATA** — QC-only rows (QC has a result but Spectro never physically measured that lot). These need lab clarification and are excluded from COMPLETE_DATA.
+
+---
+
+## 6. Row Highlighting
+
+- **Gray** — Reference rows (STD/LIGHT/DARK); Spectro's own standard/control readings, not real QC-tested lots.
+- **Light green (#C6EFCE)** — Rows where QC confirms a result but Spectro has no matching physical reading.
+- **Light orange (#F9E8BD), bold text** — Rows where the Final QC Status is Failed.
+
+---
+
+## 7. Confirmed Business Rules and Data Findings
+
+- Blank spacer rows in the QC CSV export are a structural export quirk, not a data issue.
+- The QC bag number column has known date-corruption (e.g., a bag range auto-converted into date-like text).
+- Some QC bag ranges cover several individual Spectro readings, since Spectro takes multiple separate readings within one QC-recorded range, confirmed as expected behavior, not a data error.
+- A combined "lot number range plus bag number range" QC format does not exist in the current dataset, confirmed with this would have been a data-entry error, not a valid format, and none exist across the covered product codes.
+- Some QC remarks record a bag number as free text (sometimes alongside an unrelated "collection bag" reference) instead of using the dedicated bag number field — a confirmed recurring pattern, now handled by the program.
+- Spectro's alternating sampling pattern (not every lot in a batch gets physically tested) is a confirmed lab practice.
